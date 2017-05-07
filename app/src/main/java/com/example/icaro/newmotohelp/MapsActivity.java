@@ -2,6 +2,8 @@ package com.example.icaro.newmotohelp;
 
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.util.Log;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -10,18 +12,15 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
+public class MapsActivity extends SupportMapFragment implements OnMapReadyCallback,
+                                                        GoogleMap.OnMapClickListener {
 
     private GoogleMap mMap;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_maps);
-        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.map);
-        mapFragment.getMapAsync(this);
+        getMapAsync(this);
     }
 
 
@@ -36,11 +35,32 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
      */
     @Override
     public void onMapReady(GoogleMap googleMap) {
+
+
         mMap = googleMap;
+        mMap.setOnMapClickListener(this);
+        mMap.getUiSettings().setZoomControlsEnabled(true);
+
+        LatLng cordenadas = new LatLng(-19.5520, -43.5619);
+        LatLng cordenadas1 = new LatLng(-19.6910, -43.3610);
+        /*MarkerOptions marker = new MarkerOptions();
+        marker.position(cordenadas);
+        marker.title("Borracheiro");
+        mMap.addMarker(marker);*/
+
+        mMap.addMarker(new MarkerOptions().position(cordenadas).title("Borracheiro"));
+        mMap.addMarker(new MarkerOptions().position(cordenadas1).title("Oficina"));
+
 
         // Add a marker in Sydney and move the camera
-        LatLng sydney = new LatLng(-34, 151);
+        /*LatLng sydney = new LatLng(-34, 151);
         mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));*/
+    }
+
+    @Override
+    public void onMapClick(LatLng latLng) {
+        Toast.makeText(getContext(), "Coordenadas: " + latLng.toString(),
+                Toast.LENGTH_SHORT).show();
     }
 }
