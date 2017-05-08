@@ -14,19 +14,19 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.content.*;
 
-public class PerguntasActivity extends AppCompatActivity implements View.OnClickListener {
+public class PerguntasActivity extends AppCompatActivity implements View.OnClickListener{
     private Button Botao1;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_perguntas);
         Botao1 = (Button)findViewById(R.id.Botao1);
+        Botao1.setOnClickListener(this);
     }
 
 
-
     public void onClick(View v) {
-        Intent it = new Intent(PerguntasActivity.this, RespostaActivity.class);
+        Intent it = new Intent(this, RespostaActivity.class);
         startActivity(it);
     }
 }
