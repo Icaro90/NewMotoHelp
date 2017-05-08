@@ -51,6 +51,7 @@
             android:label="@string/title_activity_maps" />
         <activity android:name=".PerguntasActivity" />
         <activity android:name=".AboutActivity" />
+        <activity android:name=".RespostaActivity"></activity>
     </application>
 
 </manifest>

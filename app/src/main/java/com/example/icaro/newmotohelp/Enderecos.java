@@ -28,4 +28,6 @@ public class Enderecos {
     public void setLng(double lng){
         this.lng = lng;
     }
+
+
 }

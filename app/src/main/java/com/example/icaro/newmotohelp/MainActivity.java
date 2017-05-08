@@ -13,7 +13,7 @@ import android.widget.TextView;
 
 import static android.R.attr.fragment;
 
-public class MainActivity extends AppCompatActivity  {
+public class MainActivity extends AppCompatActivity /*implements Fragment.MapsFragment.OnFragmentInteractionListener, SecondFragment.OnFragmentInteractionListener, ThirdFragment.OnFragmentInteractionListener*/ {
 
     private TextView mTextMessage;
     private FragmentManager fragmentManager;
@@ -58,6 +58,36 @@ public class MainActivity extends AppCompatActivity  {
         transaction.add(R.id.container, new MapsActivity(), "MapsFragment");
 
         transaction.commitAllowingStateLoss();
+
+        /*FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.replace(R.id.container, MapsActivity.newInstance());
+        fragmentTransaction.commit();
+
+        BottomNavigationView = (BottomNavigationView) findViewById(R.id.navigation);
+        BottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                Fragment fragment = null;
+                switch (item.getItemId()) {
+                    case R.id.navigation_home:
+                        fragment = MapsActivity.newInstance();
+                        break;
+                    case R.id.navigation_dashboard:
+                        fragment = Fragment.AboutFragment.newInstance();
+                        break;
+                    case R.id.navigation_notifications:
+                        fragment = Fragment.PerguntasFragment.newInstance();
+                        break;
+                }
+                if (fragment != null) {
+                    FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+                    fragmentTransaction.replace(R.id.container, fragment);
+                    fragmentTransaction.commit();
+                }
+                return true;
+            }
+        });*/
+
     }
 
 }
