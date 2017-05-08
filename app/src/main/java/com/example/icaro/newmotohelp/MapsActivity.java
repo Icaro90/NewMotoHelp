@@ -43,13 +43,23 @@ public class MapsActivity extends SupportMapFragment implements OnMapReadyCallba
 
         LatLng cordenadas = new LatLng(-19.5520, -43.5619);
         LatLng cordenadas1 = new LatLng(-19.6910, -43.3610);
+        LatLng cordenadas2 = new LatLng(-19.5010, -43.3640);
+        LatLng cordenadas3 = new LatLng(-19.6410, -43.3800);
+        LatLng cordenadas4 = new LatLng(-19.6510, -43.4610);
+        LatLng cordenadas5 = new LatLng(-19.6940, -43.4610);
         /*MarkerOptions marker = new MarkerOptions();
         marker.position(cordenadas);
         marker.title("Borracheiro");
         mMap.addMarker(marker);*/
 
         mMap.addMarker(new MarkerOptions().position(cordenadas).title("Borracheiro"));
-        mMap.addMarker(new MarkerOptions().position(cordenadas1).title("Oficina"));
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(cordenadas));
+        mMap.addMarker(new MarkerOptions().position(cordenadas1).title("Oficina1"));
+        mMap.addMarker(new MarkerOptions().position(cordenadas2).title("Borracheiro2"));
+        mMap.addMarker(new MarkerOptions().position(cordenadas3).title("Oficina2"));
+        mMap.addMarker(new MarkerOptions().position(cordenadas4).title("Borracheiro3"));
+        mMap.addMarker(new MarkerOptions().position(cordenadas5).title("Oficina"));
+
 
 
         // Add a marker in Sydney and move the camera
