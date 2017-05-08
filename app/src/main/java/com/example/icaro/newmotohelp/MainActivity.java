@@ -4,13 +4,16 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.widget.TextView;
 
-public class MainActivity extends AppCompatActivity {
+import static android.R.attr.fragment;
+
+public class MainActivity extends AppCompatActivity /*implements Fragment.MapsFragment.OnFragmentInteractionListener, SecondFragment.OnFragmentInteractionListener, ThirdFragment.OnFragmentInteractionListener*/ {
 
     private TextView mTextMessage;
     private FragmentManager fragmentManager;
@@ -20,21 +23,17 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+            Fragment fragment = null;
             switch (item.getItemId()) {
                 case R.id.navigation_home:
-                    //mTextMessage.setText(R.string.title_home);
                     Intent exemplo2 = new Intent(MainActivity.this, MapsActivity.class);
                     startActivity(exemplo2);
                     return true;
                 case R.id.navigation_dashboard:
-                    //mTextMessage.setText(R.string.title_dashboard);
-                    //return true;
                     Intent exemplo3 = new Intent(MainActivity.this, PerguntasActivity.class);
                     startActivity(exemplo3);
                     return true;
                 case R.id.navigation_notifications:
-                    //mTextMessage.setText(R.string.title_notifications);
-                    //return true;
                     Intent exemplo1 = new Intent(MainActivity.this, AboutActivity.class);
                     startActivity(exemplo1);
                     return true;
@@ -49,17 +48,46 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mTextMessage = (TextView) findViewById(R.id.message);
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
-        /*fragmentManager = getSupportFragmentManager();
+        fragmentManager = getSupportFragmentManager();
 
         FragmentTransaction transaction = fragmentManager.beginTransaction();
 
         transaction.add(R.id.container, new MapsActivity(), "MapsFragment");
 
-        transaction.commitAllowingStateLoss();*/
+        transaction.commitAllowingStateLoss();
+
+        /*FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.replace(R.id.container, MapsActivity.newInstance());
+        fragmentTransaction.commit();
+
+        BottomNavigationView = (BottomNavigationView) findViewById(R.id.navigation);
+        BottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                Fragment fragment = null;
+                switch (item.getItemId()) {
+                    case R.id.navigation_home:
+                        fragment = MapsActivity.newInstance();
+                        break;
+                    case R.id.navigation_dashboard:
+                        fragment = Fragment.AboutFragment.newInstance();
+                        break;
+                    case R.id.navigation_notifications:
+                        fragment = Fragment.PerguntasFragment.newInstance();
+                        break;
+                }
+                if (fragment != null) {
+                    FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+                    fragmentTransaction.replace(R.id.container, fragment);
+                    fragmentTransaction.commit();
+                }
+                return true;
+            }
+        });*/
+
     }
 
 }
