@@ -1,5 +1,6 @@
 package com.example.icaro.newmotohelp.Fragment;
 
+import android.app.Activity;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
@@ -21,9 +22,10 @@ import static com.example.icaro.newmotohelp.R.id.Botao1;
  * Use the {@link PerguntasFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class PerguntasFragment extends Fragment {
+public class PerguntasFragment extends Fragment implements RespostaFragment.OnFragmentInteractionListener{
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
+
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
@@ -78,7 +80,6 @@ public class PerguntasFragment extends Fragment {
             mListener.onFragmentInteraction(uri);
         }
     }
-
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -94,6 +95,11 @@ public class PerguntasFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+    }
+
+    @Override
+    public void onFragmentInteraction(Uri uri) {
+
     }
 
     /**
