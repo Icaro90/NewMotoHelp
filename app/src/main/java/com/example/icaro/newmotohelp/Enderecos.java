@@ -6,10 +6,18 @@ package com.example.icaro.newmotohelp;
 
 public class Enderecos {
     private String nome;
+    private String id;
     private double lat;
     private double lng;
-    private String gayfaghff1n1er;
 
+    public final static String REFERENCE = "Enderecos";
+
+    public String getId() {
+        return id;
+    }
+    public void setId(String id) {
+        this.id = id;
+    }
     public String getNome(){
         return nome;
     }

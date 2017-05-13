@@ -1,14 +1,35 @@
 package com.example.icaro.newmotohelp.Fragment;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
+import com.example.icaro.newmotohelp.BuildConfig;
+import com.example.icaro.newmotohelp.Enderecos;
+import com.example.icaro.newmotohelp.FireBaseConnection;
 import com.example.icaro.newmotohelp.R;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.UiSettings;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -18,7 +39,7 @@ import com.example.icaro.newmotohelp.R;
  * Use the {@link MapsFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class MapsFragment extends Fragment {
+public class MapsFragment extends Fragment implements OnMapReadyCallback {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -28,9 +49,15 @@ public class MapsFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
+    private GoogleMap map;
+
+    //private ProgressDialog progressDialog;
     private OnFragmentInteractionListener mListener;
+    private FireBaseConnection conn;
+    private ProgressDialog progressDialog;
 
     public MapsFragment() {
+
         // Required empty public constructor
     }
 
@@ -59,13 +86,27 @@ public class MapsFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_maps, container, false);
+        View v = inflater.inflate(R.layout.fragment_maps, container, false);
+
+        showProgressDialog();
+
+        FragmentManager manager = getFragmentManager();
+        FragmentTransaction transaction = manager.beginTransaction();
+        SupportMapFragment fragment = new SupportMapFragment();
+        transaction.add(R.id.mapView, fragment);
+        transaction.commit();
+
+        fragment.getMapAsync(this);
+
+        return v;
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -90,6 +131,79 @@ public class MapsFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+    }
+
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        map = googleMap;
+
+        if (map != null)
+            configMap();
+    }
+
+    private void configMap() {
+        map.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+
+        UiSettings mapSettings = map.getUiSettings();
+
+        mapSettings.setAllGesturesEnabled(true);
+        mapSettings.setCompassEnabled(true);
+        mapSettings.setZoomControlsEnabled(true);
+
+        getEnderecos();
+    }
+
+    private void getEnderecos() {
+        conn = new FireBaseConnection(getContext());
+        conn.get(Enderecos.REFERENCE).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                marcarEnderecos(dataSnapshot);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+                Toast.makeText(getActivity(), "Não foi possível conectar ao banco de dados!", Toast.LENGTH_SHORT).show();
+
+                if (BuildConfig.BUILD_TYPE.equals("debug"))
+                    Log.w("Erro", "Failed to read value.", error.toException());
+            }
+        });
+    }
+
+    private void marcarEnderecos(DataSnapshot dataSnapshot) {
+        List<Enderecos> pontos = new ArrayList<>();
+        for (DataSnapshot dss : dataSnapshot.getChildren()) {
+            Enderecos ponto = dss.getValue(Enderecos.class);
+            ponto.setId(dss.getKey());
+            pontos.add(ponto);
+        }
+
+        dismissProgressDialog();
+
+        LatLng local;
+
+        for (Enderecos ponto : pontos) {
+            local = new LatLng(ponto.getLat(), ponto.getLng());
+            map.addMarker(new MarkerOptions().position(local).title(ponto.getNome()));
+            //map.animateCamera(CameraUpdateFactory.newLatLngZoom(local, 10.0f));
+        }
+
+        map.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(pontos.get(0).getLat(), pontos.get(0).getLng()), 10.0f));
+        //map.moveCamera(CameraUpdateFactory.newLatLng());
+    }
+    private void showProgressDialog() {
+        progressDialog = new ProgressDialog(getContext());
+        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        progressDialog.setIndeterminate(false);
+        progressDialog.setMessage("Conectando ...");
+        progressDialog.setCancelable(false);
+        progressDialog.show();
+    }
+
+    private void dismissProgressDialog() {
+        if (progressDialog != null && progressDialog.isShowing())
+            progressDialog.dismiss();
     }
 
     /**

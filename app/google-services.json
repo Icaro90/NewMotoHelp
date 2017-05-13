@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "683663252726",
+    "firebase_url": "https://newmotohelp.firebaseio.com",
+    "project_id": "newmotohelp",
+    "storage_bucket": "newmotohelp.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:683663252726:android:6d4748ebfdff677c",
+        "android_client_info": {
+          "package_name": "com.example.icaro.newmotohelp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "683663252726-m38v0gaf28bn966nnmbrdml1plccomi1.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.icaro.newmotohelp",
+            "certificate_hash": "caaeafff164219c288ea783bea467cf0df8a47aa"
+          }
+        },
+        {
+          "client_id": "683663252726-2itvlot95c49oe8vfs821pk98m3q03v8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCsHfg7XJCdBkvszmt8C0wt0cSCxPKfk20"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "683663252726-2itvlot95c49oe8vfs821pk98m3q03v8.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
