@@ -15,10 +15,11 @@ import android.widget.TextView;
 import com.example.icaro.newmotohelp.Fragment.AboutFragment;
 import com.example.icaro.newmotohelp.Fragment.MapsFragment;
 import com.example.icaro.newmotohelp.Fragment.PerguntasFragment;
+import com.example.icaro.newmotohelp.Fragment.RespostaFragment;
 
 import static android.R.attr.fragment;
 
-public class MainActivity extends AppCompatActivity implements AboutFragment.OnFragmentInteractionListener, MapsFragment.OnFragmentInteractionListener, PerguntasFragment.OnFragmentInteractionListener {
+public class MainActivity extends AppCompatActivity implements AboutFragment.OnFragmentInteractionListener, MapsFragment.OnFragmentInteractionListener, PerguntasFragment.OnFragmentInteractionListener, RespostaFragment.OnFragmentInteractionListener {
 
     private TextView mTextMessage;
     private FragmentManager fragmentManager;
