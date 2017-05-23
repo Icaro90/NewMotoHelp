@@ -2,6 +2,9 @@ package com.example.icaro.newmotohelp.Fragment;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -39,7 +42,7 @@ import java.util.List;
  * Use the {@link MapsFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class MapsFragment extends Fragment implements OnMapReadyCallback {
+public class MapsFragment extends Fragment implements OnMapReadyCallback, LocationListener {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -50,7 +53,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
     private String mParam2;
 
     private GoogleMap map;
-
+    LocationManager locationManager;
     //private ProgressDialog progressDialog;
     private OnFragmentInteractionListener mListener;
     private FireBaseConnection conn;
@@ -86,8 +89,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
-
-
+        //locationManager = (locationManager)
     }
 
     @Override
@@ -107,6 +109,8 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
         fragment.getMapAsync(this);
 
         return v;
+
+
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -205,6 +209,27 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
         if (progressDialog != null && progressDialog.isShowing())
             progressDialog.dismiss();
     }
+    //########### Coordenada usuario
+    @Override
+    public void onLocationChanged(Location location) {
+
+    }
+
+    @Override
+    public void onStatusChanged(String provider, int status, Bundle extras) {
+
+    }
+
+    @Override
+    public void onProviderEnabled(String provider) {
+
+    }
+
+    @Override
+    public void onProviderDisabled(String provider) {
+
+    }
+    //################33
 
     /**
      * This interface must be implemented by activities that contain this
