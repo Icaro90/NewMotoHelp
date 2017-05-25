@@ -1,12 +1,17 @@
 package com.example.icaro.newmotohelp.Fragment;
 
+import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.pm.PackageManager;
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -19,6 +24,7 @@ import android.widget.Toast;
 import com.example.icaro.newmotohelp.BuildConfig;
 import com.example.icaro.newmotohelp.Enderecos;
 import com.example.icaro.newmotohelp.FireBaseConnection;
+import com.example.icaro.newmotohelp.MainActivity;
 import com.example.icaro.newmotohelp.R;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -31,6 +37,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -89,7 +96,82 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Locati
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
-        //locationManager = (locationManager)
+        locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
+        /*locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);*/
+        if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }
+        //Valida a conexão do network provider
+        if(locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)){
+            locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, new LocationListener() {
+                @Override
+                public void onLocationChanged(Location location) {
+                    //Coleta a latitude
+                    double latitude = location.getLatitude();
+                    //Coleta a lonngitude
+                    double longitude = location.getLongitude();
+                    //Inicia a classe LatLng
+                    LatLng latLng = new LatLng(latitude, longitude);
+                    Geocoder geocoder = new Geocoder(getContext());
+                    try {
+                        List<Address> AddressList = geocoder.getFromLocation(latitude, longitude, 1);
+                        String str = "voce está aqui.";/*AddressList.get(0).getLocality()+",";*/
+                        /*str += AddressList.get(0).getCountryName();*/
+                        map.addMarker(new MarkerOptions().position(latLng).title(str));
+                        map.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 20.2f));
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+
+                }
+
+                @Override
+                public void onStatusChanged(String provider, int status, Bundle extras) {
+
+                }
+
+                @Override
+                public void onProviderEnabled(String provider) {
+
+                }
+
+                @Override
+                public void onProviderDisabled(String provider) {
+
+                }
+            });
+        }
+        else if(locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)){
+            locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, new LocationListener() {
+                @Override
+                public void onLocationChanged(Location location) {
+
+                }
+
+                @Override
+                public void onStatusChanged(String provider, int status, Bundle extras) {
+
+                }
+
+                @Override
+                public void onProviderEnabled(String provider) {
+
+                }
+
+                @Override
+                public void onProviderDisabled(String provider) {
+
+                }
+            });
+        }
+
     }
 
     @Override
@@ -193,7 +275,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Locati
             //map.animateCamera(CameraUpdateFactory.newLatLngZoom(local, 10.0f));
         }
 
-        map.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(pontos.get(0).getLat(), pontos.get(0).getLng()), 10.0f));
+        /*map.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(pontos.get(0).getLat(), pontos.get(0).getLng()), 10.0f));*/
         //map.moveCamera(CameraUpdateFactory.newLatLng());
     }
     private void showProgressDialog() {
