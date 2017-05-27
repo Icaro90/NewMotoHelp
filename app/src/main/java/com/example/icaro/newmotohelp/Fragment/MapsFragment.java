@@ -124,7 +124,6 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Locati
                         map.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng,18.0f));
                         /*map.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 10.2f));*/
                     } catch (IOException e) {
-                        e.printStackTrace();
                     }
 
                 }
