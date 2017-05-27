@@ -15,6 +15,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -99,18 +100,13 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Locati
         locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
         /*locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);*/
         if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
+            int permissionCheck = ContextCompat.checkSelfPermission(getContext(),
+                    Manifest.permission.ACCESS_FINE_LOCATION);
             return;
         }
         //Valida a conexão do network provider
         if(locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)){
-            locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, new LocationListener() {
+            locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 3000, 20, new LocationListener() {
                 @Override
                 public void onLocationChanged(Location location) {
                     //Coleta a latitude
@@ -125,7 +121,8 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Locati
                         String str = "voce está aqui.";/*AddressList.get(0).getLocality()+",";*/
                         /*str += AddressList.get(0).getCountryName();*/
                         map.addMarker(new MarkerOptions().position(latLng).title(str));
-                        map.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 20.2f));
+                        map.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng,18.0f));
+                        /*map.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 10.2f));*/
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
@@ -171,7 +168,6 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Locati
                 }
             });
         }
-
     }
 
     @Override
