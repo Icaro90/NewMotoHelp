@@ -32,7 +32,10 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.UiSettings;
+import com.google.android.gms.maps.model.BitmapDescriptor;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -106,7 +109,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Locati
         }
         //Valida a conexão do network provider
         if(locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)){
-            locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 3000, 20, new LocationListener() {
+            locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 1000, 20, new LocationListener() {
                 @Override
                 public void onLocationChanged(Location location) {
                     //Coleta a latitude
@@ -120,8 +123,21 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Locati
                         List<Address> AddressList = geocoder.getFromLocation(latitude, longitude, 1);
                         String str = "voce está aqui.";/*AddressList.get(0).getLocality()+",";*/
                         /*str += AddressList.get(0).getCountryName();*/
-                        map.addMarker(new MarkerOptions().position(latLng).title(str));
+                        /*map.addMarker(new MarkerOptions().position(latLng).title(str));*/
+                        /*map.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng,18.0f));*/
+                        Marker Marcador = map.addMarker(new MarkerOptions().position(latLng));
+                        Marcador.setTitle(str);
+                        Marcador.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.ic_motorcycle_black_48dp));
                         map.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng,18.0f));
+
+                        /*if( latLng.latitude != Marcador.()){
+                            map.clear();
+                            Marcador.setTitle(str);
+                            Marcador.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.ic_motorcycle_black_48dp));
+                            map.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng,18.0f));
+                        }*/
+
+
                         /*map.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 10.2f));*/
                     } catch (IOException e) {
                     }
@@ -268,6 +284,8 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Locati
             local = new LatLng(ponto.getLat(), ponto.getLng());
             map.addMarker(new MarkerOptions().position(local).title(ponto.getNome()));
             //map.animateCamera(CameraUpdateFactory.newLatLngZoom(local, 10.0f));
+
+
         }
 
         /*map.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(pontos.get(0).getLat(), pontos.get(0).getLng()), 10.0f));*/
