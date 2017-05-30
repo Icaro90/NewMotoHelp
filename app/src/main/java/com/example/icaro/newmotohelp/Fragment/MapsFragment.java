@@ -40,6 +40,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
+import com.google.android.gms.common.api.GoogleApiClient;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -53,7 +54,7 @@ import java.util.List;
  * Use the {@link MapsFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class MapsFragment extends Fragment implements OnMapReadyCallback, LocationListener {
+public class MapsFragment extends Fragment implements OnMapReadyCallback, LocationListener{
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -65,6 +66,8 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Locati
 
     private GoogleMap map;
     LocationManager locationManager;
+    Marker Marcador;
+    Location mLastLocation;
     //private ProgressDialog progressDialog;
     private OnFragmentInteractionListener mListener;
     private FireBaseConnection conn;
@@ -112,20 +115,25 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Locati
             locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 1000, 20, new LocationListener() {
                 @Override
                 public void onLocationChanged(Location location) {
+                    //Deleta marcador velho
+                    mLastLocation = location;
+                    if (Marcador != null) {
+                        Marcador.remove();
+                    }
                     //Coleta a latitude
                     double latitude = location.getLatitude();
                     //Coleta a lonngitude
                     double longitude = location.getLongitude();
                     //Inicia a classe LatLng
                     LatLng latLng = new LatLng(latitude, longitude);
-                    Geocoder geocoder = new Geocoder(getContext());
+                    Geocoder geocoder = new Geocoder(getContext().getApplicationContext());
                     try {
                         List<Address> AddressList = geocoder.getFromLocation(latitude, longitude, 1);
                         String str = "voce está aqui.";/*AddressList.get(0).getLocality()+",";*/
                         /*str += AddressList.get(0).getCountryName();*/
                         /*map.addMarker(new MarkerOptions().position(latLng).title(str));*/
                         /*map.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng,18.0f));*/
-                        Marker Marcador = map.addMarker(new MarkerOptions().position(latLng));
+                        Marcador = map.addMarker(new MarkerOptions().position(latLng));
                         Marcador.setTitle(str);
                         Marcador.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.ic_motorcycle_black_48dp));
                         map.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng,18.0f));

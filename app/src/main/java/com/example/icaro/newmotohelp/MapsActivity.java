@@ -16,8 +16,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-
-
+import static com.example.icaro.newmotohelp.R.id.map;
 
 
 public class MapsActivity extends SupportMapFragment implements OnMapReadyCallback,
@@ -49,6 +48,10 @@ public class MapsActivity extends SupportMapFragment implements OnMapReadyCallba
     @Override
     public void onMapReady(GoogleMap googleMap) {
 
+        /*map = googleMap;
+
+        if (map != null)
+            configMap();*/
 
         mMap = googleMap;
         mMap.setOnMapClickListener(this);
@@ -79,6 +82,9 @@ public class MapsActivity extends SupportMapFragment implements OnMapReadyCallba
         /*LatLng sydney = new LatLng(-34, 151);
         mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));*/
+    }
+
+    private void configMap() {
     }
 
     @Override
