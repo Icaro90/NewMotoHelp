@@ -115,7 +115,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Locati
             locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 1000, 20, new LocationListener() {
                 @Override
                 public void onLocationChanged(Location location) {
-                    //Deleta marcador velho
+                    //Deleta marcador velho1
                     mLastLocation = location;
                     if (Marcador != null) {
                         Marcador.remove();
