@@ -24,7 +24,6 @@ import android.widget.Toast;
 import com.example.icaro.newmotohelp.BuildConfig;
 import com.example.icaro.newmotohelp.Enderecos;
 import com.example.icaro.newmotohelp.FireBaseConnection;
-import com.example.icaro.newmotohelp.MainActivity;
 import com.example.icaro.newmotohelp.R;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -98,7 +97,8 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Locati
         }
         locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
         /*locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);*/
-        if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+        if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getActivity(),
+                Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             // TODO: Consider calling
             //    ActivityCompat#requestPermissions
             // here to request the missing permissions, and then overriding
@@ -126,11 +126,13 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Locati
                         /*str += AddressList.get(0).getCountryName();*/
                         map.addMarker(new MarkerOptions().position(latLng).title(str));
                         map.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 20.2f));
+
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
 
                 }
+
 
                 @Override
                 public void onStatusChanged(String provider, int status, Bundle extras) {
@@ -272,7 +274,8 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Locati
         for (Enderecos ponto : pontos) {
             local = new LatLng(ponto.getLat(), ponto.getLng());
             map.addMarker(new MarkerOptions().position(local).title(ponto.getNome()));
-            //map.animateCamera(CameraUpdateFactory.newLatLngZoom(local, 10.0f));
+            //map.animateCamera(CameraUpdateFactory.newLatLngZoom(local, 10.0f))
+
         }
 
         /*map.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(pontos.get(0).getLat(), pontos.get(0).getLng()), 10.0f));*/
