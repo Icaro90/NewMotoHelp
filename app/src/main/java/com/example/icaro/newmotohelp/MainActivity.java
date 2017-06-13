@@ -37,9 +37,9 @@ public class MainActivity extends AppCompatActivity implements AboutFragment.OnF
             Fragment fragment = null;
             switch (item.getItemId()) {
                 case R.id.navigation_home:
-                    /*Intent exemplo2 = new Intent(MainActivity.this, MapsActivity.class);
-                    startActivity(exemplo2);*/
-                    fragment = MapsFragment.newInstance("", "");
+                    Intent exemplo2 = new Intent(MainActivity.this, MapsActivity.class);
+                    startActivity(exemplo2);
+                    /*fragment = MapsFragment.newInstance("", "");*/
                     break;
                 case R.id.navigation_dashboard:
                     /*Intent exemplo3 = new Intent(MainActivity.this, PerguntasActivity.class);
@@ -70,7 +70,7 @@ public class MainActivity extends AppCompatActivity implements AboutFragment.OnF
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
-        /*fragmentManager = getSupportFragmentManager();
+        fragmentManager = getSupportFragmentManager();
 
         FragmentTransaction transaction = fragmentManager.beginTransaction();
 
@@ -78,13 +78,13 @@ public class MainActivity extends AppCompatActivity implements AboutFragment.OnF
 
         transaction.commitAllowingStateLoss();
 
-        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        /*FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.replace(R.id.container, MapsActivity.newInstance());
         fragmentTransaction.commit();*/
 
-        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        /*FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.replace(R.id.container, MapsFragment.newInstance("", ""));
-        fragmentTransaction.commit();
+        fragmentTransaction.commit();*/
 
         /*BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
                 = new BottomNavigationView.OnNavigationItemSelectedListener(){
