@@ -112,7 +112,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Locati
         }
         //Valida a conexão do network provider
         if(locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)){
-            locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 1000, 20, new LocationListener() {
+            locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 500, 20, new LocationListener() {
                 @Override
                 public void onLocationChanged(Location location) {
                     //Deleta marcador velho1
