@@ -137,16 +137,6 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Locati
                         Marcador.setTitle(str);
                         Marcador.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.ic_motorcycle_black_48dp));
                         map.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng,18.0f));
-
-                        /*if( latLng.latitude != Marcador.()){
-                            map.clear();
-                            Marcador.setTitle(str);
-                            Marcador.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.ic_motorcycle_black_48dp));
-                            map.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng,18.0f));
-                        }*/
-
-
-                        /*map.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 10.2f));*/
                     } catch (IOException e) {
                     }
 

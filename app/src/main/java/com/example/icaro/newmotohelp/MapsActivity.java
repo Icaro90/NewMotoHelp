@@ -157,6 +157,8 @@ public class MapsActivity extends SupportMapFragment implements OnMapReadyCallba
     }
 
 
+
+
     /**
      * Manipulates the map once available.
      * This callback is triggered when the map is ready to be used.
@@ -203,6 +205,8 @@ public class MapsActivity extends SupportMapFragment implements OnMapReadyCallba
             }
         });
     }
+
+
 
     private void marcarEnderecos(DataSnapshot dataSnapshot) {
         List<Enderecos> pontos = new ArrayList<>();
