@@ -82,7 +82,7 @@ public class PerguntasFragment extends Fragment implements RespostaFragment.OnFr
         View v = inflater.inflate(R.layout.fragment_perguntas, container, false);
 
         //Repasse de dados do Radio Button - INICIO
-        //Os valores retornam um ENUM
+        //Os valores retornam um ENUMa
 
 
         //Repasse de dados do Radio Button - FIM
