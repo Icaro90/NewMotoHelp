@@ -51,7 +51,7 @@ public class CadastroUsuarioActivity extends AppCompatActivity {
         });
     }
 
-    private void cadastrarUsuario(){
+    /*private void cadastrarUsuario(){
         autenticacao = ConfiguracaoFirebase.getFirebaseAutenticacao();
         autenticacao.createUserWithEmailAndPassword(
                 usuario.getEmail(),
@@ -92,5 +92,5 @@ public class CadastroUsuarioActivity extends AppCompatActivity {
             }
         });
 
-    }
+    }*/
 }
