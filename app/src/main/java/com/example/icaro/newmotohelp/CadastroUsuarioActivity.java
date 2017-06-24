@@ -42,13 +42,13 @@ public class CadastroUsuarioActivity extends AppCompatActivity {
                 usuario.setNome(nome.getText().toString());
                 usuario.setEmail(nome.getText().toString());
                 usuario.setSenha(nome.getText().toString());
-                cadastrarUsuario();
+                /*cadastrarUsuario();*/
 
             }
         });
     }
 
-    private void cadastrarUsuario(){
+    /*private void cadastrarUsuario(){
         autenticacao = ConfiguracaoFirebase.getFirebaseAutenticacao();
         autenticacao.createUserWithEmailAndPassword(
                 usuario.getEmail(),
@@ -68,5 +68,5 @@ public class CadastroUsuarioActivity extends AppCompatActivity {
             }
         });
 
-    }
+    }*/
 }

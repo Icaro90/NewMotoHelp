@@ -11,8 +11,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 
+import com.example.icaro.newmotohelp.Especialista.Moto;
+import com.example.icaro.newmotohelp.Especialista.MotoService;
 import com.example.icaro.newmotohelp.R;
+import com.example.icaro.newmotohelp.Tipos.*;
 
 import static com.example.icaro.newmotohelp.R.id.Botao1;
 
@@ -75,15 +80,47 @@ public class PerguntasFragment extends Fragment implements RespostaFragment.OnFr
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_perguntas, container, false);
+
+        //Repasse de dados do Radio Button - INICIO
+        //Os valores retornam um ENUM
+
+
+        //Repasse de dados do Radio Button - FIM
+
         Button Botao1 = (Button) v.findViewById(R.id.Botao1);
         Botao1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+
+                RadioGroup radioEstilo =  (RadioGroup) v.findViewById(R.id.rdg1);
+                RadioButton rdEstilo = (RadioButton)v.findViewById(radioEstilo.getCheckedRadioButtonId());
+                Estilo estilo =  Estilo.getValue(String.valueOf(rdEstilo.getTag()));
+
+                RadioGroup radioFinalidade =  (RadioGroup) v.findViewById(R.id.rdg2);
+                RadioButton rdFinalidade = (RadioButton)v.findViewById(radioFinalidade.getCheckedRadioButtonId());
+                Finalidade finalidade =  Finalidade.getValue(String.valueOf(rdFinalidade.getTag()));
+
+                RadioGroup radioFaixaValor =  (RadioGroup) v.findViewById(R.id.rdg3);
+                RadioButton rdradioFaixaValor = (RadioButton)v.findViewById(radioFaixaValor.getCheckedRadioButtonId());
+                FaixaValor faixaValor =  FaixaValor.getValue(String.valueOf(rdradioFaixaValor.getTag()));
+
+                RadioGroup radioTempo =  (RadioGroup) v.findViewById(R.id.rdg4);
+                RadioButton rdradioTempo = (RadioButton)v.findViewById(radioTempo.getCheckedRadioButtonId());
+                Tempo tempo =  Tempo.getValue(String.valueOf(rdradioTempo.getTag()));
+
+                RadioGroup radioVelocidade =  (RadioGroup) v.findViewById(R.id.rdg5);
+                RadioButton rdVelocidade = (RadioButton)v.findViewById(radioVelocidade.getCheckedRadioButtonId());
+                Velocidade velocidade =  Velocidade.getValue(String.valueOf(rdVelocidade.getTag()));
+
+                MotoService service = new MotoService();
+                Moto moto = service.montaMoto(estilo,faixaValor,finalidade, tempo, velocidade);
+
                 Fragment fr = new Fragment();
                 FragmentManager fm = getFragmentManager();
-                FragmentTransaction fragmentTransaction = fm.beginTransaction();
+                        FragmentTransaction fragmentTransaction = fm.beginTransaction();
                 /*fragmentTransaction.replace(R.id.container, fr);*/
-                fragmentTransaction.replace(R.id.container, RespostaFragment.newInstance("", ""));
+                fragmentTransaction.replace(R.id.container, RespostaFragment.newInstance("", "", moto));
                 fragmentTransaction.commit();
             }
         });
@@ -118,16 +155,6 @@ public class PerguntasFragment extends Fragment implements RespostaFragment.OnFr
 
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);

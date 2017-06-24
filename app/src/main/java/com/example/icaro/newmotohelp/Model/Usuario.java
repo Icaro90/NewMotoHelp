@@ -20,8 +20,8 @@ public class Usuario {
 
      //cod para salvar o usuario no firebase
     public void salvar(){
-        DatabaseReference referenciaFirebase = ConfiguracaoFirebase.getFirebase();
-        referenciaFirebase.child("usuarios");
+        /*DatabaseReference referenciaFirebase = ConfiguracaoFirebase.getFirebase();
+        referenciaFirebase.child("usuarios");*/
 
     }
 
