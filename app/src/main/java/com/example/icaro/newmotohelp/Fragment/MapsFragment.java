@@ -103,8 +103,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Locati
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
-        locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
-        /*locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);*/
+        /*locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
         if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             int permissionCheck = ContextCompat.checkSelfPermission(getContext(),
                     Manifest.permission.ACCESS_FINE_LOCATION);
@@ -112,7 +111,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Locati
         }
         //Valida a conexão do network provider
         if(locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)){
-            locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 500, 20, new LocationListener() {
+            locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 20, new LocationListener() {
                 @Override
                 public void onLocationChanged(Location location) {
                     //Deleta marcador velho1
@@ -129,10 +128,111 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Locati
                     Geocoder geocoder = new Geocoder(getContext().getApplicationContext());
                     try {
                         List<Address> AddressList = geocoder.getFromLocation(latitude, longitude, 1);
-                        String str = "voce está aqui.";/*AddressList.get(0).getLocality()+",";*/
-                        /*str += AddressList.get(0).getCountryName();*/
+                        String str = "voce está aqui.";*//*AddressList.get(0).getLocality()+",";*//*
+                        *//*str += AddressList.get(0).getCountryName();*//*
+                        *//*map.addMarker(new MarkerOptions().position(latLng).title(str));*//*
+                        *//*map.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng,18.0f));*//*
+                        Marcador = map.addMarker(new MarkerOptions().position(latLng));
+                        Marcador.setTitle(str);
+                        Marcador.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.ic_motorcycle_black_48dp));
+                        map.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng,18.0f));
+                    } catch (IOException e) {
+                    }
+
+                }
+
+                @Override
+                public void onStatusChanged(String provider, int status, Bundle extras) {
+
+                }
+
+                @Override
+                public void onProviderEnabled(String provider) {
+
+                }
+
+                @Override
+                public void onProviderDisabled(String provider) {
+
+                }
+            });
+        }
+        else if(locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)){
+            locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, new LocationListener() {
+                @Override
+                public void onLocationChanged(Location location) {
+
+                }
+
+                @Override
+                public void onStatusChanged(String provider, int status, Bundle extras) {
+
+                }
+
+                @Override
+                public void onProviderEnabled(String provider) {
+
+                }
+
+                @Override
+                public void onProviderDisabled(String provider) {
+
+                }
+            });
+        }*/
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        View v = inflater.inflate(R.layout.fragment_maps, container, false);
+
+        showProgressDialog();
+
+        FragmentManager manager = getFragmentManager();
+        FragmentTransaction transaction = manager.beginTransaction();
+        SupportMapFragment fragment = new SupportMapFragment();
+        transaction.add(R.id.mapView, fragment);
+        transaction.commit();
+
+        fragment.getMapAsync(this);
+
+        locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
+        if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            int permissionCheck = ContextCompat.checkSelfPermission(getContext(),
+                    Manifest.permission.ACCESS_FINE_LOCATION);
+            return null;
+        }
+        //Valida a conexão do network provider
+        if(locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)){
+            locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 20, new LocationListener() {
+                @Override
+                public void onLocationChanged(Location location) {
+                    //Deleta marcador velho1
+                    mLastLocation = location;
+                    if (Marcador != null) {
+                        Marcador.remove();
+                    }
+                    //Coleta a latitude
+                    double latitude = location.getLatitude();
+                    //Coleta a lonngitude
+                    double longitude = location.getLongitude();
+                    //Inicia a classe LatLng
+                    LatLng latLng = new LatLng(latitude, longitude);
+                    Geocoder geocoder = new Geocoder(getContext().getApplicationContext());
+                    try {
+                        List<Address> AddressList = geocoder.getFromLocation(latitude, longitude, 1);
+                        String str = "voce está aqui.";
+                        while (latLng == null){
+                            latitude = location.getLatitude();
+                            //Coleta a lonngitude
+                            longitude = location.getLongitude();
+                            //Inicia a classe LatLng
+                            latLng = new LatLng(latitude, longitude);
+                        }
                         /*map.addMarker(new MarkerOptions().position(latLng).title(str));*/
-                        /*map.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng,18.0f));*/
+                        map.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng,18.0f));
                         Marcador = map.addMarker(new MarkerOptions().position(latLng));
                         Marcador.setTitle(str);
                         Marcador.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.ic_motorcycle_black_48dp));
@@ -181,26 +281,10 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Locati
                 }
             });
         }
-    }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        View v = inflater.inflate(R.layout.fragment_maps, container, false);
 
-        showProgressDialog();
-
-        FragmentManager manager = getFragmentManager();
-        FragmentTransaction transaction = manager.beginTransaction();
-        SupportMapFragment fragment = new SupportMapFragment();
-        transaction.add(R.id.mapView, fragment);
-        transaction.commit();
-
-        fragment.getMapAsync(this);
 
         return v;
-
 
     }
 
